@@ -12,9 +12,9 @@ class TodayViewController: UIViewController {
     var viewModel: ViewModel = ViewModel()
     
     let mainWeatherImage: UIImageView = {
-        let iamgeView = UIImageView(image: UIImage(systemName: "sun.max"))
-        iamgeView.tintColor = .orange
-        return iamgeView
+        let imageView = UIImageView(image: UIImage(systemName: "sun.max"))
+        imageView.tintColor = .orange
+        return imageView
     }()
     
     let locationLabel: UILabel = {

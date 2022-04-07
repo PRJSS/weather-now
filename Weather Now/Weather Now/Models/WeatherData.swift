@@ -13,3 +13,8 @@ struct WeatherData {
     let main: String = "NaN"
     
 }
+
+struct GetRequestData {
+    let latitudeData: Float = 51.509865
+    let longitudeData: Float = -0.118092
+}
