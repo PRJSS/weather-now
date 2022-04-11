@@ -6,10 +6,9 @@
 //
 
 import UIKit
+import CoreLocation
 
 class TodayViewController: UIViewController {
-    
-    var viewModel: ViewModel = ViewModel()
     
     let mainWeatherImage: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "sun.max"))
@@ -19,42 +18,38 @@ class TodayViewController: UIViewController {
     
     let locationLabel: UILabel = {
         let label = UILabel()
-        label.text = "London, UK"
         label.textAlignment = .center
         return label
     }()
     
     let mainWeatherInfoLabel: UILabel = {
         let label = UILabel()
-        label.text = "22ºC | Sunny"
         label.textAlignment = .center
         label.font = label.font.withSize(25)
         label.textColor = .systemBlue
         return label
     }()
     
-    let precipitationImage: UIImageView = {
+    let cloudinessImage: UIImageView = {
         let iamgeView = UIImageView(image: UIImage(systemName: "drop"))
         iamgeView.tintColor = .orange
         return iamgeView
     }()
     
-    let precipitationLabel: UILabel = {
+    let cloudinessLabel: UILabel = {
         let label = UILabel()
-        label.text = "1.0 mm"
         label.textAlignment = .center
         return label
     }()
     
-    let probabilityOfPrecipitationImage: UIImageView = {
+    let probabilityOfCloudinessImage: UIImageView = {
         let iamgeView = UIImageView(image: UIImage(systemName: "cloud.hail"))
         iamgeView.tintColor = .orange
         return iamgeView
     }()
     
-    let probabilityOfPrecipitationLabel: UILabel = {
+    let probabilityOfCloudinessLabel: UILabel = {
         let label = UILabel()
-        label.text = "57%"
         label.textAlignment = .center
         return label
     }()
@@ -67,7 +62,6 @@ class TodayViewController: UIViewController {
     
     let pressureLabel: UILabel = {
         let label = UILabel()
-        label.text = "1019 hPa"
         label.textAlignment = .center
         return label
     }()
@@ -80,7 +74,6 @@ class TodayViewController: UIViewController {
     
     let windSpeedLabel: UILabel = {
         let label = UILabel()
-        label.text = "20 km/h"
         label.textAlignment = .center
         return label
     }()
@@ -93,7 +86,6 @@ class TodayViewController: UIViewController {
     
     let windDirectionLabel: UILabel = {
         let label = UILabel()
-        label.text = "SE"
         label.textAlignment = .center
         return label
     }()
@@ -106,12 +98,35 @@ class TodayViewController: UIViewController {
         return button
     }()
     
+    var viewModel: TodayViewModel! {
+        didSet {
+            self.locationLabel.text = viewModel.location
+            self.mainWeatherInfoLabel.text = viewModel.temperatureAndCondition
+            self.cloudinessLabel.text = viewModel.rain
+            self.probabilityOfCloudinessLabel.text = viewModel.cloudiness
+            self.pressureLabel.text = viewModel.pressure
+            self.windSpeedLabel.text = viewModel.windSpeed
+            self.windDirectionLabel.text = viewModel.windDeg
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
+        viewModel = TodayViewModel()
+        
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        viewModel.locationManager.requestLocation()
+        viewModel.networkWeatherManager.fetchCurrentWeather(latitude: viewModel.locationData.latitude, longitude: viewModel.locationData.longitude) {
+            currentWeather in //code)
+        }
+    }
+    
+
     private func setupSubviews() {
         view.backgroundColor = .systemBackground
         
@@ -119,13 +134,13 @@ class TodayViewController: UIViewController {
         layoutMainWeatherImage()
         layoutLocationLabel()
         layoutMainWeatherInfoLabel()
-        layoutPrecipitationImage()
-        layoutProbabilityOfPrecipitationImage()
+        layoutCloudinessImage()
+        layoutProbabilityOfCloudinessImage()
         layoutPressureImage()
         layoutWindSpeedImage()
         layoutWindDirectionImage()
-        layoutPrecipitationLabel()
-        layoutProbabilityOfPrecipitationLabel()
+        layoutCloudinessLabel()
+        layoutProbabilityOfCloudinessLabel()
         layoutPressureLabel()
         layoutWindSpeedLabel()
         layoutWindDirectionLabel()
@@ -164,21 +179,21 @@ class TodayViewController: UIViewController {
         ])
     }
     
-    private func layoutPrecipitationImage() {
-        view.addSubview(precipitationImage)
-        precipitationImage.translatesAutoresizingMaskIntoConstraints = false
+    private func layoutCloudinessImage() {
+        view.addSubview(cloudinessImage)
+        cloudinessImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            precipitationImage.topAnchor.constraint(equalTo: mainWeatherInfoLabel.bottomAnchor, constant: 30),
-            precipitationImage.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
+            cloudinessImage.topAnchor.constraint(equalTo: mainWeatherInfoLabel.bottomAnchor, constant: 30),
+            cloudinessImage.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
         ])
     }
     
-    private func layoutProbabilityOfPrecipitationImage() {
-        view.addSubview(probabilityOfPrecipitationImage)
-        probabilityOfPrecipitationImage.translatesAutoresizingMaskIntoConstraints = false
+    private func layoutProbabilityOfCloudinessImage() {
+        view.addSubview(probabilityOfCloudinessImage)
+        probabilityOfCloudinessImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            probabilityOfPrecipitationImage.topAnchor.constraint(equalTo: mainWeatherInfoLabel.bottomAnchor, constant: 30),
-            probabilityOfPrecipitationImage.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor,constant: 60),
+            probabilityOfCloudinessImage.topAnchor.constraint(equalTo: mainWeatherInfoLabel.bottomAnchor, constant: 30),
+            probabilityOfCloudinessImage.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor,constant: 60),
         ])
     }
     
@@ -187,7 +202,7 @@ class TodayViewController: UIViewController {
         pressureImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             pressureImage.topAnchor.constraint(equalTo: mainWeatherInfoLabel.bottomAnchor, constant: 30),
-            pressureImage.leftAnchor.constraint(equalTo: precipitationImage.rightAnchor,constant: 80)
+            pressureImage.leftAnchor.constraint(equalTo: cloudinessImage.rightAnchor,constant: 80)
         ])
     }
     
@@ -195,7 +210,7 @@ class TodayViewController: UIViewController {
         view.addSubview(windSpeedImage)
         windSpeedImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            windSpeedImage.topAnchor.constraint(equalTo: precipitationImage.bottomAnchor, constant: 50),
+            windSpeedImage.topAnchor.constraint(equalTo: cloudinessImage.bottomAnchor, constant: 50),
             windSpeedImage.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor, constant: 110)
         ])
     }
@@ -204,27 +219,27 @@ class TodayViewController: UIViewController {
         view.addSubview(windDirectionImage)
         windDirectionImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            windDirectionImage.topAnchor.constraint(equalTo: precipitationImage.bottomAnchor, constant: 50),
+            windDirectionImage.topAnchor.constraint(equalTo: cloudinessImage.bottomAnchor, constant: 50),
             windDirectionImage.leftAnchor.constraint(equalTo: windSpeedImage.leftAnchor, constant: 110),
         ])
     }
     
-    private func layoutPrecipitationLabel() {
-        view.addSubview(precipitationLabel)
-        precipitationLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func layoutCloudinessLabel() {
+        view.addSubview(cloudinessLabel)
+        cloudinessLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            precipitationLabel.topAnchor.constraint(equalTo: precipitationImage.bottomAnchor, constant: 5),
-            precipitationLabel.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
+            cloudinessLabel.topAnchor.constraint(equalTo: cloudinessImage.bottomAnchor, constant: 5),
+            cloudinessLabel.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
         ])
     }
     
     
-    private func layoutProbabilityOfPrecipitationLabel() {
-        view.addSubview(probabilityOfPrecipitationLabel)
-        probabilityOfPrecipitationLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func layoutProbabilityOfCloudinessLabel() {
+        view.addSubview(probabilityOfCloudinessLabel)
+        probabilityOfCloudinessLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            probabilityOfPrecipitationLabel.topAnchor.constraint(equalTo: probabilityOfPrecipitationImage.bottomAnchor, constant: 5),
-            probabilityOfPrecipitationLabel.centerXAnchor.constraint(equalTo: probabilityOfPrecipitationImage.centerXAnchor),
+            probabilityOfCloudinessLabel.topAnchor.constraint(equalTo: probabilityOfCloudinessImage.bottomAnchor, constant: 5),
+            probabilityOfCloudinessLabel.centerXAnchor.constraint(equalTo: probabilityOfCloudinessImage.centerXAnchor),
         ])
     }
     

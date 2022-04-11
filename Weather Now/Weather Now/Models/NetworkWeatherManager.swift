@@ -8,17 +8,30 @@
 import Foundation
 
 struct NetworkWeatherManager {
-    private let apiKey: String = "4fdb77a3172dc5c34e6e3a20bc6f31cb"
-    func fetchCurrentWeather(latitude lat: Float, longitude lon: Float){
-            let weatherNowUrl = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(String(lat))&lon=\(String(lon))&appid=\(apiKey))")
-                
+    
+    func fetchCurrentWeather(latitude lat: Double, longitude lon: Double, completionHandler: @escaping (CurrentWeather) -> Void) {
+        guard  let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)") else {return}
         let session: URLSession = URLSession(configuration: .default)
-        let task = session.dataTask(with: weatherNowUrl!) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             if let data = data {
-                let dataString = String(data: data, encoding: .utf8)
-                print(dataString!)
+                if let currentWeather = self.parseJSON(withData: data){
+                    completionHandler(currentWeather)
+                }
             }
         }
         task.resume()
+    }
+    
+    func parseJSON(withData data: Data) -> CurrentWeather? {
+        let decoder = JSONDecoder()
+        do {
+            let currentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
+            guard let currentWeather = CurrentWeather(currentWeatherData: currentWeatherData) else {return nil}
+            return currentWeather
+        } catch let error as NSError {
+            print(error)
+        }
+        return nil
+        
     }
 }
