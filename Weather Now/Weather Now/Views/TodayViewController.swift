@@ -112,18 +112,32 @@ class TodayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         setupSubviews()
         viewModel = TodayViewModel()
+        
+        
+        LocationManager.shared.getUserLocation { [weak self] location in
+            self!.viewModel.locationData.longitude = location.coordinate.longitude
+            self!.viewModel.locationData.latitude = location.coordinate.latitude
+            self!.viewModel.networkWeatherManager.fetchCurrentWeather(latitude: self!.viewModel.latitude, longitude: self!.viewModel.longitude)
+            self!.viewModel.networkWeatherManager.onComplition = { currentWeather in
+                DispatchQueue.main.sync {
+                self!.viewModel.currentWeather = currentWeather
+                }
+            }
+        }
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        viewModel.locationManager.requestLocation()
-        viewModel.networkWeatherManager.fetchCurrentWeather(latitude: viewModel.locationData.latitude, longitude: viewModel.locationData.longitude) {
-            currentWeather in //code)
-        }
+        
+        //viewModel.networkWeatherManager.fetchCurrentWeather(latitude: viewModel.locationData.latitude, longitude: viewModel.locationData.longitude)
+//        viewModel.networkWeatherManager.onComplition = { currentWeather in
+//            self.viewModel.currentWeather = currentWeather
+//        }
     }
     
 
@@ -282,4 +296,3 @@ class TodayViewController: UIViewController {
     
     
 }
-

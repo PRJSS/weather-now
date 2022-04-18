@@ -8,14 +8,16 @@
 import Foundation
 
 struct NetworkWeatherManager {
+        
+    var onComplition: ((CurrentWeather) -> Void)?
     
-    func fetchCurrentWeather(latitude lat: Double, longitude lon: Double, completionHandler: @escaping (CurrentWeather) -> Void) {
+    func fetchCurrentWeather(latitude lat: Double, longitude lon: Double) {
         guard  let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)") else {return}
         let session: URLSession = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, response, error in
             if let data = data {
                 if let currentWeather = self.parseJSON(withData: data){
-                    completionHandler(currentWeather)
+                    self.onComplition?(currentWeather)
                 }
             }
         }

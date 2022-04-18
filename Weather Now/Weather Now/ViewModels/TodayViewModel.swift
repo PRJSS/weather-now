@@ -9,19 +9,19 @@ import Foundation
 import CoreLocation
 import UIKit
 
-class TodayViewModel: UIViewController {
+struct TodayViewModel {
     
     var networkWeatherManager = NetworkWeatherManager()
     var locationData = LocationData()
     var currentWeather = CurrentWeather()
     
-    lazy var locationManager: CLLocationManager = {
-        let lm = CLLocationManager()
-        lm.delegate = self
-        lm.desiredAccuracy = kCLLocationAccuracyKilometer
-        lm.requestWhenInUseAuthorization()
-        return lm
-    }()
+    var latitude: Double {
+        return locationData.latitude
+    }
+    
+    var longitude: Double {
+        return locationData.longitude
+    }
     
     var location: String {
         return "\(currentWeather.cityName), \(currentWeather.countryName)"
@@ -87,18 +87,14 @@ class TodayViewModel: UIViewController {
         default:
             return "NaN"
         }
-        
-    }
-}
-
-extension TodayViewModel: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else {return}
-        locationData.longitude = location.coordinate.longitude
-        locationData.latitude = location.coordinate.latitude
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error.localizedDescription)
-    }
+//    func updateWeather () {
+//        LocationManager.shared.getUserLocation { location in
+//            self.
+//        }
+//        self.networkWeatherManager.
+//    }
 }
+
+
