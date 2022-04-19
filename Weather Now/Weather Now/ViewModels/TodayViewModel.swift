@@ -15,6 +15,10 @@ struct TodayViewModel {
     var locationData = LocationData()
     var currentWeather = CurrentWeather()
     
+    var mainCondition: String {
+        return currentWeather.main
+    }
+    
     var latitude: Double {
         return locationData.latitude
     }
@@ -27,9 +31,9 @@ struct TodayViewModel {
         return "\(currentWeather.cityName), \(currentWeather.countryName)"
     }
     
-    var temperatureAndCondition: String {
+    var temperature: String {
         
-        return "\(Int(currentWeather.temperature - 273.15))ºC | Sunny"
+        return "\(Int(currentWeather.temperature - 273.15))ºC"
     }
     
     var pressure: String {
@@ -88,13 +92,6 @@ struct TodayViewModel {
             return "NaN"
         }
     }
-    
-//    func updateWeather () {
-//        LocationManager.shared.getUserLocation { location in
-//            self.
-//        }
-//        self.networkWeatherManager.
-//    }
 }
 
 

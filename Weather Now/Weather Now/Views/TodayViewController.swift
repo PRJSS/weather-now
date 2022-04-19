@@ -101,7 +101,7 @@ class TodayViewController: UIViewController {
     var viewModel: TodayViewModel! {
         didSet {
             self.locationLabel.text = viewModel.location
-            self.mainWeatherInfoLabel.text = viewModel.temperatureAndCondition
+            self.mainWeatherInfoLabel.text = "\(viewModel.temperature) | \(viewModel.mainCondition)"
             self.cloudinessLabel.text = viewModel.rain
             self.probabilityOfCloudinessLabel.text = viewModel.cloudiness
             self.pressureLabel.text = viewModel.pressure
@@ -112,32 +112,17 @@ class TodayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
         setupSubviews()
+        addButtonActions()
         viewModel = TodayViewModel()
         
-        
-        LocationManager.shared.getUserLocation { [weak self] location in
-            self!.viewModel.locationData.longitude = location.coordinate.longitude
-            self!.viewModel.locationData.latitude = location.coordinate.latitude
-            self!.viewModel.networkWeatherManager.fetchCurrentWeather(latitude: self!.viewModel.latitude, longitude: self!.viewModel.longitude)
-            self!.viewModel.networkWeatherManager.onComplition = { currentWeather in
-                DispatchQueue.main.sync {
-                self!.viewModel.currentWeather = currentWeather
-                }
-            }
-        }
+        updateWeather()
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        
-        //viewModel.networkWeatherManager.fetchCurrentWeather(latitude: viewModel.locationData.latitude, longitude: viewModel.locationData.longitude)
-//        viewModel.networkWeatherManager.onComplition = { currentWeather in
-//            self.viewModel.currentWeather = currentWeather
-//        }
     }
     
 
@@ -293,6 +278,28 @@ class TodayViewController: UIViewController {
             ])
         }
     
+    private func updateWeather() {
+        LocationManager.shared.getUserLocation { [weak self] location in
+            self!.viewModel.locationData.longitude = location.coordinate.longitude
+            self!.viewModel.locationData.latitude = location.coordinate.latitude
+            self!.viewModel.networkWeatherManager.fetchCurrentWeather(latitude: self!.viewModel.latitude, longitude: self!.viewModel.longitude)
+            self!.viewModel.networkWeatherManager.onComplition = { currentWeather in
+                DispatchQueue.main.sync {
+                self!.viewModel.currentWeather = currentWeather
+                }
+            }
+        }
+    }
     
+    @objc private func didTapShare(){
+        let text: String = "Current weather in \(viewModel.location) is: \(viewModel.temperature), \(viewModel.mainCondition), \(viewModel.pressure)."
+        let shareSheetVC = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        present(shareSheetVC, animated: true)
+        
+    }
+    
+    private func addButtonActions(){
+        shareButton.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
+    }
     
 }

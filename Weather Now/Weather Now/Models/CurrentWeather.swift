@@ -17,6 +17,7 @@ struct CurrentWeather {
     var windSpeed: Double
     var windDeg: Int
     var icon: Int
+    var main: String
     
     init?(currentWeatherData: CurrentWeatherData) {
         cityName = currentWeatherData.name
@@ -24,6 +25,7 @@ struct CurrentWeather {
         temperature = currentWeatherData.main.temp
         pressure = currentWeatherData.main.pressure
         cloudiness = currentWeatherData.clouds.all
+        main = currentWeatherData.weather[0].main
         
         if currentWeatherData.rain != nil {
             rain = currentWeatherData.rain!.rain1h
@@ -46,5 +48,6 @@ struct CurrentWeather {
         windSpeed = 20
         windDeg = 145
         icon = 1
+        main = "Sunny"
     }
 }
