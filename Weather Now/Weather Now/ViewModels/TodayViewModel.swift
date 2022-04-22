@@ -92,6 +92,17 @@ struct TodayViewModel {
             return "NaN"
         }
     }
+    
+    var date: String {
+        let timeResult = Double(currentWeather.date)
+        let date = Date(timeIntervalSince1970: timeResult)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = DateFormatter.Style.medium //Set time style
+        dateFormatter.dateStyle = DateFormatter.Style.medium //Set date style
+        dateFormatter.timeZone = .current
+        let localDate = dateFormatter.string(from: date)
+        return "\(localDate)"
+    }
 }
 
 

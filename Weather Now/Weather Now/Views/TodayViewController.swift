@@ -98,6 +98,13 @@ class TodayViewController: UIViewController {
         return button
     }()
     
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = .secondaryLabel
+        return label
+    }()
+    
     private var viewModel: TodayViewModel! {
         didSet {
             self.locationLabel.text = viewModel.location
@@ -107,6 +114,7 @@ class TodayViewController: UIViewController {
             self.pressureLabel.text = viewModel.pressure
             self.windSpeedLabel.text = viewModel.windSpeed
             self.windDirectionLabel.text = viewModel.windDeg
+            self.dateLabel.text = viewModel.date
         }
     }
     
@@ -144,6 +152,7 @@ class TodayViewController: UIViewController {
         layoutWindSpeedLabel()
         layoutWindDirectionLabel()
         layoutShareButton()
+        layoutDateLabel()
     }
     
     private func layoutLocationLabel() {
@@ -289,6 +298,15 @@ class TodayViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func layoutDateLabel() {
+        view.addSubview(dateLabel)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            dateLabel.topAnchor.constraint(equalTo: windSpeedImage.bottomAnchor, constant: 50),
+            dateLabel.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
+        ])
     }
     
     @objc private func didTapShare(){

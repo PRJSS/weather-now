@@ -18,6 +18,7 @@ struct CurrentWeather {
     var windDeg: Int
     var icon: Int
     var main: String
+    var date: Int
     
     init?(currentWeatherData: CurrentWeatherData) {
         cityName = currentWeatherData.name
@@ -36,6 +37,7 @@ struct CurrentWeather {
         windSpeed = currentWeatherData.wind.speed
         windDeg = currentWeatherData.wind.deg
         icon = currentWeatherData.weather[0].id
+        date = currentWeatherData.dt
     }
     
     init(){
@@ -49,5 +51,6 @@ struct CurrentWeather {
         windDeg = 145
         icon = 1
         main = "Sunny"
+        date = 1560350645
     }
 }
