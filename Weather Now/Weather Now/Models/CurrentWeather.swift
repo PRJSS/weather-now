@@ -16,7 +16,7 @@ struct CurrentWeather {
     var rain: Double
     var windSpeed: Double
     var windDeg: Int
-    var icon: Int
+    var icon: String
     var main: String
     var date: Int
     
@@ -36,7 +36,7 @@ struct CurrentWeather {
         
         windSpeed = currentWeatherData.wind.speed
         windDeg = currentWeatherData.wind.deg
-        icon = currentWeatherData.weather[0].id
+        icon = currentWeatherData.weather[0].icon
         date = currentWeatherData.dt
     }
     
@@ -49,7 +49,7 @@ struct CurrentWeather {
         rain = 1.0
         windSpeed = 20
         windDeg = 145
-        icon = 1
+        icon = "01d"
         main = "Sunny"
         date = 1560350645
     }

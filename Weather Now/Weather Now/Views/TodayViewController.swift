@@ -107,6 +107,7 @@ class TodayViewController: UIViewController {
     
     private var viewModel: TodayViewModel! {
         didSet {
+            self.mainWeatherImage.image = UIImage(systemName: viewModel.image)
             self.locationLabel.text = viewModel.location
             self.mainWeatherInfoLabel.text = "\(viewModel.temperature) | \(viewModel.mainCondition)"
             self.cloudinessLabel.text = viewModel.rain
