@@ -10,19 +10,19 @@ import CoreLocation
 
 class TodayViewController: UIViewController {
     
-    let mainWeatherImage: UIImageView = {
+    private let mainWeatherImage: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "sun.max"))
         imageView.tintColor = .orange
         return imageView
     }()
     
-    let locationLabel: UILabel = {
+    private let locationLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
     }()
     
-    let mainWeatherInfoLabel: UILabel = {
+    private let mainWeatherInfoLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = label.font.withSize(25)
@@ -30,67 +30,67 @@ class TodayViewController: UIViewController {
         return label
     }()
     
-    let cloudinessImage: UIImageView = {
+    private let cloudinessImage: UIImageView = {
         let iamgeView = UIImageView(image: UIImage(systemName: "drop"))
         iamgeView.tintColor = .orange
         return iamgeView
     }()
     
-    let cloudinessLabel: UILabel = {
+    private let cloudinessLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
     }()
     
-    let probabilityOfCloudinessImage: UIImageView = {
+    private let probabilityOfCloudinessImage: UIImageView = {
         let iamgeView = UIImageView(image: UIImage(systemName: "cloud.hail"))
         iamgeView.tintColor = .orange
         return iamgeView
     }()
     
-    let probabilityOfCloudinessLabel: UILabel = {
+    private let probabilityOfCloudinessLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
     }()
     
-    let pressureImage: UIImageView = {
+    private let pressureImage: UIImageView = {
         let iamgeView = UIImageView(image: UIImage(systemName: "speedometer"))
         iamgeView.tintColor = .orange
         return iamgeView
     }()
     
-    let pressureLabel: UILabel = {
+    private let pressureLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
     }()
     
-    let windSpeedImage: UIImageView = {
+    private let windSpeedImage: UIImageView = {
         let iamgeView = UIImageView(image: UIImage(systemName: "wind"))
         iamgeView.tintColor = .orange
         return iamgeView
     }()
     
-    let windSpeedLabel: UILabel = {
+    private let windSpeedLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
     }()
     
-    let windDirectionImage: UIImageView = {
+    private let windDirectionImage: UIImageView = {
         let iamgeView = UIImageView(image: UIImage(systemName: "safari"))
         iamgeView.tintColor = .orange
         return iamgeView
     }()
     
-    let windDirectionLabel: UILabel = {
+    private let windDirectionLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
     }()
     
-    let shareButton: UIButton = {
+    private let shareButton: UIButton = {
         let button = UIButton()
         button.setTitle("Share", for: .normal)
         button.setTitleColor(UIColor.red, for: .normal)
@@ -98,7 +98,7 @@ class TodayViewController: UIViewController {
         return button
     }()
     
-    var viewModel: TodayViewModel! {
+    private var viewModel: TodayViewModel! {
         didSet {
             self.locationLabel.text = viewModel.location
             self.mainWeatherInfoLabel.text = "\(viewModel.temperature) | \(viewModel.mainCondition)"
