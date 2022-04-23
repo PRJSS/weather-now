@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreLocation
 
 class TodayViewController: UIViewController {
     
@@ -171,11 +170,13 @@ class TodayViewController: UIViewController {
     private func layoutMainWeatherImage() {
         view.addSubview(mainWeatherImage)
         mainWeatherImage.translatesAutoresizingMaskIntoConstraints = false
+        mainWeatherImage.contentMode = .scaleAspectFill
+        
         NSLayoutConstraint.activate([
             mainWeatherImage.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
             mainWeatherImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 50),
-            mainWeatherImage.widthAnchor.constraint(equalToConstant: 130),
-            mainWeatherImage.heightAnchor.constraint(equalToConstant: 130)
+//            mainWeatherImage.widthAnchor.constraint(equalToConstant: 130),
+            mainWeatherImage.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
     
@@ -293,7 +294,7 @@ class TodayViewController: UIViewController {
             self!.viewModel.locationData.longitude = location.coordinate.longitude
             self!.viewModel.locationData.latitude = location.coordinate.latitude
             self!.viewModel.networkWeatherManager.fetchCurrentWeather(latitude: self!.viewModel.latitude, longitude: self!.viewModel.longitude)
-            self!.viewModel.networkWeatherManager.onComplition = { currentWeather in
+            self!.viewModel.networkWeatherManager.currentWeatherOnComplition = { currentWeather in
                 DispatchQueue.main.sync {
                 self!.viewModel.currentWeather = currentWeather
                 }

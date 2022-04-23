@@ -31,12 +31,3 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     
 }
-
-//lazy var locationManager: CLLocationManager = {
-//    let lm = CLLocationManager()
-//    lm.delegate = self
-//    lm.desiredAccuracy = kCLLocationAccuracyKilometer
-//    lm.requestWhenInUseAuthorization()
-//    return lm
-//}()
-//
