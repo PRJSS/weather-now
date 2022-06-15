@@ -56,7 +56,7 @@ struct CurrentWeatherData: Codable {
     
     // MARK: - Sys
     struct Sys: Codable {
-        let type, id: Int
+        let type, id: Int?
         let message: String?
         let country: String
         let sunrise, sunset: Int

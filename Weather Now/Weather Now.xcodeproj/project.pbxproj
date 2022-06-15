@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65160B6F284FA8EA00AB757F /* ForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65160B6E284FA8EA00AB757F /* ForecastTableViewCell.swift */; };
 		6518BBFB2813604E00841639 /* ForecastWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6518BBFA2813604E00841639 /* ForecastWeatherData.swift */; };
 		6518BBFD2813629400841639 /* ForecastWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6518BBFC2813629400841639 /* ForecastWeather.swift */; };
 		6518BBFF281371FC00841639 /* ForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6518BBFE281371FC00841639 /* ForecastViewModel.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		65160B6E284FA8EA00AB757F /* ForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTableViewCell.swift; sourceTree = "<group>"; };
 		6518BBFA2813604E00841639 /* ForecastWeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastWeatherData.swift; sourceTree = "<group>"; };
 		6518BBFC2813629400841639 /* ForecastWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastWeather.swift; sourceTree = "<group>"; };
 		6518BBFE281371FC00841639 /* ForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewModel.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				65E631E327F7566F00D06F04 /* AppDelegate.swift */,
 				65E631E527F7566F00D06F04 /* SceneDelegate.swift */,
 				6526CA2027FE720A00FC6C2D /* Constants.swift */,
+				65160B6E284FA8EA00AB757F /* ForecastTableViewCell.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65160B6F284FA8EA00AB757F /* ForecastTableViewCell.swift in Sources */,
 				65E631E827F7566F00D06F04 /* TodayViewController.swift in Sources */,
 				655532F028027D5C007CBFF0 /* CurrentWeather.swift in Sources */,
 				6526CA1D27FE079200FC6C2D /* ForecastViewController.swift in Sources */,

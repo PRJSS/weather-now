@@ -125,7 +125,6 @@ class TodayViewController: UIViewController {
         viewModel = TodayViewModel()
         
         updateWeather()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -133,7 +132,7 @@ class TodayViewController: UIViewController {
         
     }
     
-
+    
     private func setupSubviews() {
         view.backgroundColor = .systemBackground
         
@@ -175,7 +174,7 @@ class TodayViewController: UIViewController {
         NSLayoutConstraint.activate([
             mainWeatherImage.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
             mainWeatherImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 50),
-//            mainWeatherImage.widthAnchor.constraint(equalToConstant: 130),
+            //            mainWeatherImage.widthAnchor.constraint(equalToConstant: 130),
             mainWeatherImage.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
@@ -281,26 +280,36 @@ class TodayViewController: UIViewController {
     }
     
     private func layoutShareButton() {
-            view.addSubview(shareButton)
-            shareButton.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                shareButton.topAnchor.constraint(lessThanOrEqualTo: windDirectionLabel.bottomAnchor, constant: 100),
-                shareButton.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor)
-            ])
-        }
+        view.addSubview(shareButton)
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            shareButton.topAnchor.constraint(lessThanOrEqualTo: windDirectionLabel.bottomAnchor, constant: 100),
+            shareButton.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor)
+        ])
+    }
     
     private func updateWeather() {
-        LocationManager.shared.getUserLocation { [weak self] location in
-            self!.viewModel.locationData.longitude = location.coordinate.longitude
-            self!.viewModel.locationData.latitude = location.coordinate.latitude
-            self!.viewModel.networkWeatherManager.fetchCurrentWeather(latitude: self!.viewModel.latitude, longitude: self!.viewModel.longitude)
-            self!.viewModel.networkWeatherManager.currentWeatherOnComplition = { currentWeather in
-                DispatchQueue.main.sync {
-                self!.viewModel.currentWeather = currentWeather
+        
+        LocationManager.shared.manager.requestWhenInUseAuthorization()
+        
+        if let loc = LocationManager.shared.manager.location {
+            self.viewModel.locationData.longitude = loc.coordinate.longitude
+            self.viewModel.locationData.latitude = loc.coordinate.latitude
+            print("1. location updated")
+            
+            viewModel.networkWeatherManager.fetchCurrentWeather(latitude: viewModel.latitude, longitude: viewModel.longitude) { [weak self] currentWeather in
+                print("3. fetched")
+                DispatchQueue.main.async {
+                    self?.viewModel.currentWeather = currentWeather
+                    print("4. saved weather")
                 }
             }
         }
+        else {
+            print("location is not allowed")
+        }
     }
+    
     
     private func layoutDateLabel() {
         view.addSubview(dateLabel)
@@ -312,9 +321,11 @@ class TodayViewController: UIViewController {
     }
     
     @objc private func didTapShare(){
-        let text: String = "Current weather in \(viewModel.location) is: \(viewModel.temperature), \(viewModel.mainCondition), \(viewModel.pressure)."
-        let shareSheetVC = UIActivityViewController(activityItems: [text], applicationActivities: nil)
-        present(shareSheetVC, animated: true)
+        DispatchQueue.main.async {
+            let text: String = "Current weather in \(self.viewModel.location) is: \(self.viewModel.temperature), \(self.viewModel.mainCondition), \(self.viewModel.pressure)."
+            let shareSheetVC = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+            self.present(shareSheetVC, animated: true)
+        }
         
     }
     
@@ -323,3 +334,4 @@ class TodayViewController: UIViewController {
     }
     
 }
+

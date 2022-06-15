@@ -65,7 +65,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func createForecastViewController() -> UINavigationController {
         let forecastViewController = ForecastViewController()
         forecastViewController.title = "Forecast"
-        forecastViewController.tabBarItem = UITabBarItem(title: "Forecast", image: UIImage(systemName: "calendar.badge.clock"), tag: 0)
+        forecastViewController.tabBarItem = UITabBarItem(title: "Forecast", image: UIImage(systemName: "calendar.badge.clock"), tag: 1)
         return UINavigationController(rootViewController: forecastViewController)
     }
     

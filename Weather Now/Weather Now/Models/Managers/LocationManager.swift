@@ -19,14 +19,18 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         self.completion = completion
         manager.requestWhenInUseAuthorization()
         manager.delegate = self
-        manager.startUpdatingLocation()
+        manager.requestLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("didUpdateLocations")
         guard let location = locations.last else { return }
         completion?(location)
-        manager.stopUpdatingLocation()
     }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+           print("Failed to find user's location: \(error.localizedDescription)")
+      }
     
     
     

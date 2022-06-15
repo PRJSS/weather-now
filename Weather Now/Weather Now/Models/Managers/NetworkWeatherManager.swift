@@ -8,16 +8,16 @@
 import Foundation
 
 struct NetworkWeatherManager {
-        
-    var currentWeatherOnComplition: ((CurrentWeather) -> Void)?
     
-    func fetchCurrentWeather(latitude lat: Double, longitude lon: Double) {
+    func fetchCurrentWeather(latitude lat: Double, longitude lon: Double, completionBlock: @escaping (CurrentWeather) -> Void) {
         guard  let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)") else {return}
+        print(url)
         let session: URLSession = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, response, error in
             if let data = data {
                 if let currentWeather = self.parseCurrentWeatherJSON(withData: data){
-                    self.currentWeatherOnComplition?(currentWeather)
+                    print("2. downloaded")
+                    completionBlock(currentWeather)
                 }
             }
         }
@@ -38,13 +38,15 @@ struct NetworkWeatherManager {
     
     var forecastWeatherOnComplition: ((ForecastWeather) -> Void)?
     
-    func fetchForecastWeather(latitude lat: Double, longitude lon: Double) {
+    func fetchForecastWeather(latitude lat: Double, longitude lon: Double, completionBlock: @escaping (ForecastWeather) -> Void) {
         guard  let url = URL(string: "https://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(lon)&appid=\(apiKey)") else {return}
+        print(url)
         let session: URLSession = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, response, error in
             if let data = data {
                 if let forecastWeather = self.parseForecastWeatherJSON(withData: data){
-                    self.forecastWeatherOnComplition?(forecastWeather)
+                    print("2. get forecastWeather")
+                    completionBlock(forecastWeather)
                 }
             }
         }

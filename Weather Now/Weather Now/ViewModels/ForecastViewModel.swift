@@ -25,4 +25,5 @@ struct ForecastViewModel{
         return "\(forecastWeather?.cityName ?? "London")"
     }
     
+    
 }
