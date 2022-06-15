@@ -68,6 +68,14 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		6539EC0C28598EC300EBAE34 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				65160B6E284FA8EA00AB757F /* ForecastTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		655532EA28026034007CBFF0 /* Extencions */ = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +99,7 @@
 		657C82B027FB85E800F328F0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6539EC0C28598EC300EBAE34 /* Cells */,
 				65E631E727F7566F00D06F04 /* TodayViewController.swift */,
 				6526CA1C27FE079200FC6C2D /* ForecastViewController.swift */,
 			);
@@ -112,7 +121,6 @@
 				65E631E327F7566F00D06F04 /* AppDelegate.swift */,
 				65E631E527F7566F00D06F04 /* SceneDelegate.swift */,
 				6526CA2027FE720A00FC6C2D /* Constants.swift */,
-				65160B6E284FA8EA00AB757F /* ForecastTableViewCell.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

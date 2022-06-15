@@ -52,7 +52,7 @@ class ForecastViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Hello"
+        return self.viewModel.forecastWeather?.days[section].dayName
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -62,9 +62,14 @@ class ForecastViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.viewModel.forecastWeather?.days[section].Weather3HList.count ?? 0
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return ForecastTableViewCell()
+        let cell = forecastTableView.dequeueReusableCell(withIdentifier: "ForecastTableViewCell", for: indexPath) as! ForecastTableViewCell
+        cell.temperatureLabel.text = self.viewModel.forecastWeather?.days[indexPath.section].Weather3HList[indexPath.row].temp
+        cell.mainWeatherImage.image = UIImage(systemName: (self.viewModel.forecastWeather?.days[indexPath.section].Weather3HList[indexPath.row].icon)!)
+        cell.timeLabel.text = self.viewModel.forecastWeather?.days[indexPath.section].Weather3HList[indexPath.row].time
+        cell.weatherInfoLabel.text = self.viewModel.forecastWeather?.days[indexPath.section].Weather3HList[indexPath.row].main
+        return cell
     }
     
     private func setupSubviews() {
