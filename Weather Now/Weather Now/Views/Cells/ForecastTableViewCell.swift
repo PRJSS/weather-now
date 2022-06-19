@@ -49,6 +49,13 @@ class ForecastTableViewCell: UITableViewCell {
         layoutTimeLabel()
         layoutTemperatureLabel()
         layoutWeatherInfoLabel()
+        layoutCell()
+    }
+    
+    private func layoutCell() {
+        NSLayoutConstraint.activate([
+            self.contentView.heightAnchor.constraint(equalToConstant: 80)
+        ])
     }
     
     private func layoutMainWeatherImage() {
@@ -56,7 +63,6 @@ class ForecastTableViewCell: UITableViewCell {
         mainWeatherImage.translatesAutoresizingMaskIntoConstraints = false
         mainWeatherImage.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
-            mainWeatherImage.heightAnchor.constraint(equalToConstant: 70),
             mainWeatherImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             mainWeatherImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)  ,
             mainWeatherImage.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 45)
@@ -68,7 +74,7 @@ class ForecastTableViewCell: UITableViewCell {
         contentView.addSubview(timeLabel)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            timeLabel.leftAnchor.constraint(equalTo: mainWeatherImage.rightAnchor, constant: 40),
+            timeLabel.leftAnchor.constraint(equalTo: mainWeatherImage.rightAnchor, constant: 50),
             timeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 10)
         ])
     }

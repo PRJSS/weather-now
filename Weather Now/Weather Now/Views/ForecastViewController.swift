@@ -8,7 +8,7 @@
 import UIKit
 
 class ForecastViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-        
+    
     var forecastTableView: UITableView = {
         let tableView = UITableView.init(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,7 +52,8 @@ class ForecastViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.viewModel.forecastWeather?.days[section].dayName
+        let title = self.viewModel.forecastWeather?.days[section].dayName
+        return title
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -69,12 +70,16 @@ class ForecastViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.mainWeatherImage.image = UIImage(systemName: (self.viewModel.forecastWeather?.days[indexPath.section].Weather3HList[indexPath.row].icon)!)
         cell.timeLabel.text = self.viewModel.forecastWeather?.days[indexPath.section].Weather3HList[indexPath.row].time
         cell.weatherInfoLabel.text = self.viewModel.forecastWeather?.days[indexPath.section].Weather3HList[indexPath.row].main
+        cell.selectionStyle = .none
         return cell
     }
     
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 100.0
+//    }
+    
     private func setupSubviews() {
         view.backgroundColor = .systemBackground
-        
         layoutForecastTableView()
     }
     
@@ -82,7 +87,7 @@ class ForecastViewController: UIViewController, UITableViewDataSource, UITableVi
         view.addSubview(forecastTableView)
         forecastTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            forecastTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            forecastTableView.topAnchor.constraint(equalTo: view.topAnchor),
             forecastTableView.leftAnchor.constraint(equalTo:view.leftAnchor),
             forecastTableView.rightAnchor.constraint(equalTo:view.rightAnchor),
             forecastTableView.bottomAnchor.constraint(equalTo:view.bottomAnchor)
